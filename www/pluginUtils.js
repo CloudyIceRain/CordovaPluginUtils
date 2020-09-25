@@ -15,6 +15,14 @@ let plugin_utils = {
 	getMetaDataByKey(arg0, success, error){
 		exec(success, error, 'pluginUtils', 'getMetaDataByKey', [arg0]);
 	},
+
+	requestPermissions(arg0, arg1, success, error){
+		exec(success, error, 'pluginUtils', 'requestPermissions', [arg0, arg1]);
+	},
+
+	checkPermission(arg0, success, error){
+		exec(success, error, 'pluginUtils', 'checkPermission', [arg0]);
+	},
 }
 
 module.exports = plugin_utils;
