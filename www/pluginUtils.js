@@ -11,6 +11,10 @@ let plugin_utils = {
 	getVersionName(arg0, success, error){
 		exec(success, error, 'pluginUtils', 'getVersionName', [arg0]);
 	},
+	
+	getMetaDataByKey(arg0, success, error){
+		exec(success, error, 'pluginUtils', 'getMetaDataByKey', [arg0]);
+	},
 }
 
 module.exports = plugin_utils;

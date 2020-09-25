@@ -2,6 +2,7 @@ package com.cordova.plugin.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -35,6 +36,21 @@ public class pluginUtils extends CordovaPlugin {
         }
     }
 
+    public static String getMetaDataByKey(Context context, String key) {
+        if (context == null) {
+            return null;
+        }
+        try {
+            ApplicationInfo appInfo = null;
+            appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            String msg = appInfo.metaData.getString(key);
+            return msg;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
@@ -51,9 +67,12 @@ public class pluginUtils extends CordovaPlugin {
             String vname = getVersionName(context);
             callbackContext.success(vname);
         	return true;
+        }else if ("getMetaData".equals(action)){
+            String key = args.getString(0);
+            String vData = getMetaDataByKey(context, key);
+            callbackContext.success(vData);
+            return true;
         }
-
-
 
         callbackContext.error(action + " is not a supported action");
         return false;
