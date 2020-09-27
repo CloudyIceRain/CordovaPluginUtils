@@ -36,6 +36,9 @@ public class pluginUtils extends CordovaPlugin {
                         this.m_permission_Callback.error(permissions[k]);
                         return;
                     }
+                }else{
+                    //申请成功
+                    this.m_permission_Callback.success(permissions[k]);
                 }
             }
         }
