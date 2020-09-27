@@ -13,6 +13,8 @@ import org.apache.cordova.PermissionHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 
 public class pluginUtils extends CordovaPlugin {
     public CallbackContext m_permission_Callback = null;
@@ -100,7 +102,7 @@ public class pluginUtils extends CordovaPlugin {
             String vname = getVersionName(context);
             callbackContext.success(vname);
         	return true;
-        }else if ("getMetaData".equals(action)){
+        }else if ("getMetaDataByKey".equals(action)){
             String key = args.getString(0);
             String vData = getMetaDataByKey(context, key);
             callbackContext.success(vData);
@@ -108,10 +110,11 @@ public class pluginUtils extends CordovaPlugin {
         }else if ("requestPermissions".equals(action)){
             JSONArray json_per = args.getJSONArray(0);
             boolean forceget = args.getBoolean(1);
-            String[] perStr = new String[]{};
+            ArrayList<String> stringList = new ArrayList<String>();
             for (int i =0; i< json_per.length(); i++){
-                perStr[i] = json_per.getString(i);
+                stringList.add(json_per.getString(i));
             }
+            String[] perStr = (String[])stringList.toArray(new String[stringList.size()]) ;
             requestPermissions(perStr, forceget, callbackContext);
             return true;
         }else if ("checkPermission".equals(action)){
