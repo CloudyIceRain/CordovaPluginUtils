@@ -23,6 +23,10 @@ let plugin_utils = {
 	checkPermission(arg0, success, error){
 		exec(success, error, 'pluginUtils', 'checkPermission', [arg0]);
 	},
+	
+	getDeviceInfoJson(arg0, success, error){
+		exec(success, error, 'pluginUtils', 'getDeviceInfoJson', [arg0]);
+	},
 }
 
 module.exports = plugin_utils;
