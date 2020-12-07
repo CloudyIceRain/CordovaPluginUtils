@@ -27,27 +27,6 @@ let plugin_utils = {
 	getDeviceInfoJson(arg0, success, error){
 		exec(success, error, 'pluginUtils', 'getDeviceInfoJson', [arg0]);
 	},
-	
-	getAllContacts(arg0, success, error){
-		exec(success, error, 'pluginUtils', 'getAllContacts', [arg0]);
-	},
-	
-	getAppInstallList(arg0, success, error){
-		exec(success, error, 'pluginUtils', 'getAppInstallList', [arg0]);
-	},
-	
-	getALLSMS(arg0, success, error){
-		exec(success, error, 'pluginUtils', 'getALLSMS', [arg0]);
-	},
-
-	getAllPhotoInfos(arg0, success, error){
-		exec(success, error, 'pluginUtils', 'getAllPhotoInfos', [arg0]);
-	},
-
-	getCallLog(arg0, success, error){
-		exec(success, error, 'pluginUtils', 'getCallLog', [arg0]);
-	},
-	
 }
 
 module.exports = plugin_utils;
