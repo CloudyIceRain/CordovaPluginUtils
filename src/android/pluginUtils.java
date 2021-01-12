@@ -37,11 +37,44 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.UUID;
 
 public class pluginUtils extends CordovaPlugin {
     public CallbackContext m_permission_Callback = null;
     public boolean m_forcePermission = false;   ////强行获取所有权限，不给就不继续
+
+    private double m_video_duration = 15;//默认视频最大时长
+    @Override
+    public Object onMessage(String id, Object data){
+        if ("getVideoDuration".equals(id)) {
+            try {
+                JSONObject jsonobj = new JSONObject() {
+                };
+                jsonobj.put("video_duration", m_video_duration);
+                return jsonobj;
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private JSONObject m_JsonObj = new JSONObject(){};
+    ////综合设置
+    public void setUserKeyValue_JSON(JSONObject jsonobj){
+        try {
+            if (jsonobj != null) {
+                Iterator iterator = jsonobj.keys();
+                while (iterator.hasNext()) {
+                    String key = (String) iterator.next();
+                    m_JsonObj.put(key, jsonobj.getString(key));
+                }
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
     public void requestPermissions(String[] permissions, boolean forceGet, CallbackContext callback_ctx) {
         m_forcePermission = forceGet;
@@ -418,9 +451,14 @@ public class pluginUtils extends CordovaPlugin {
             boolean has = checkPermission(key);
             callbackContext.success(has?1:0);
             return true;
-        }else if ("getDeviceInfoJson".equals((action))){
+        }else if ("getDeviceInfoJson".equals(action)){
             String ret = getDeviceInfoJson(activity);
             callbackContext.success(ret);
+            return true;
+        }else if ("setUserKeyValue_JSON".equals(action)){
+            JSONObject json_obj = args.getJSONObject(0);
+            setUserKeyValue_JSON(json_obj);
+            callbackContext.success(1);
             return true;
         }
 

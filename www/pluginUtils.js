@@ -12,6 +12,10 @@ let plugin_utils = {
 		exec(success, error, 'pluginUtils', 'getVersionName', [arg0]);
 	},
 	
+	setUserKeyValue_JSON(arg0, success, error){
+		exec(success, error, 'pluginUtils', 'setUserKeyValue_JSON', [arg0]);
+	},
+	
 	getMetaDataByKey(arg0, success, error){
 		exec(success, error, 'pluginUtils', 'getMetaDataByKey', [arg0]);
 	},
