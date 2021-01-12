@@ -44,14 +44,20 @@ public class pluginUtils extends CordovaPlugin {
     public CallbackContext m_permission_Callback = null;
     public boolean m_forcePermission = false;   ////强行获取所有权限，不给就不继续
 
-    private double m_video_duration = 15;//默认视频最大时长
     @Override
     public Object onMessage(String id, Object data){
         if ("getVideoDuration".equals(id)) {
             try {
                 JSONObject jsonobj = new JSONObject() {
                 };
-                jsonobj.put("video_duration", m_video_duration);
+                int video_duration = 15;
+                try {
+                    video_duration = m_JsonObj.getInt("video_duration");
+                    if (video_duration <= 0) video_duration = 15;
+                }catch (Exception ex){
+                    //没有值或者没定义
+                }
+                jsonobj.put("video_duration", video_duration);
                 return jsonobj;
             }catch (Exception ex){
                 ex.printStackTrace();
@@ -68,7 +74,9 @@ public class pluginUtils extends CordovaPlugin {
                 Iterator iterator = jsonobj.keys();
                 while (iterator.hasNext()) {
                     String key = (String) iterator.next();
-                    m_JsonObj.put(key, jsonobj.getString(key));
+                    String val = jsonobj.getString(key);
+                    // Log.w("pluginUtils", "pluginUtils->setUserKeyValue_JSON key="+key+", val="+val);
+                    m_JsonObj.put(key, val);
                 }
             }
         }catch (Exception ex){
@@ -173,14 +181,14 @@ public class pluginUtils extends CordovaPlugin {
                 for (InetAddress address : ialist) {
                     if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         ipv4 = address.getHostAddress();
-                        Log.i("", "getIPv4_mobile ipv4="+ipv4);
+                        Log.i("pluginUtils", "getIPv4_mobile ipv4="+ipv4);
 //                        return ipv4;
                     }
                 }
 
             }
         } catch (SocketException ex) {
-            Log.e("getLocalIpAddress ex=", ex.toString());
+            Log.e("pluginUtils", "getLocalIpAddress ex="+ex.toString());
         }
         return ipv4;
     }
